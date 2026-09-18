@@ -49,27 +49,47 @@ final class Product {
   }
 }
 
-bool sameProductList(List<Product> left, List<Product> right) {
-  // TODO 2: определите, представляют ли два списка один и тот же каталог.
-  return identical(left, right);
+abstract interface class CatalogComparator {
+  bool sameProductList(List<Product> left, List<Product> right);
+
+  Map<String, Product> indexById(
+    List<Product> products, {
+    LogSink? log,
+  });
+
+  Set<String> findChangedIds(
+    List<Product> previous,
+    List<Product> current, {
+    LogSink? log,
+  });
 }
 
-Map<String, Product> indexById(
-  List<Product> products, {
-  LogSink? log,
-}) {
-  // TODO 3: подготовьте каталог для поиска товара по id.
-  // Некорректный каталог должен дать понятную ошибку и лог;
-  // успешная операция — итоговый лог. Результат нельзя менять снаружи.
-  throw UnimplementedError();
-}
+final class DefaultCatalogComparator implements CatalogComparator {
+  @override
+  bool sameProductList(List<Product> left, List<Product> right) {
+    // TODO 2: определите, представляют ли два списка один и тот же каталог.
+    return identical(left, right);
+  }
 
-Set<String> findChangedIds(
-  List<Product> previous,
-  List<Product> current, {
-  LogSink? log,
-}) {
-  // TODO 4: верните id товаров, состояние которых различается между версиями.
-  // Не изменяйте входные каталоги; зафиксируйте результат в логе.
-  throw UnimplementedError();
+  @override
+  Map<String, Product> indexById(
+    List<Product> products, {
+    LogSink? log,
+  }) {
+    // TODO 3: подготовьте каталог для поиска товара по id.
+    // Некорректный каталог должен дать понятную ошибку и лог;
+    // успешная операция — итоговый лог. Результат нельзя менять снаружи.
+    throw UnimplementedError();
+  }
+
+  @override
+  Set<String> findChangedIds(
+    List<Product> previous,
+    List<Product> current, {
+    LogSink? log,
+  }) {
+    // TODO 4: верните id товаров, состояние которых различается между версиями.
+    // Не изменяйте входные каталоги; зафиксируйте результат в логе.
+    throw UnimplementedError();
+  }
 }
