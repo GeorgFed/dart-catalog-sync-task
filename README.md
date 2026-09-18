@@ -6,7 +6,7 @@
 
 ## Что нужно сделать
 
-Интерфейс `ProductCartManager` уже описывает требуемые операции. Последовательно реализуйте четыре TODO в модели `Product` и классе `DefaultProductCartManager`:
+Интерфейс `ProductCartManager` уже описывает требуемые операции. Последовательно завершите модель `Product`, создайте собственный класс с `implements ProductCartManager` и верните его из `createProductCartManager()`:
 
 1. Сравнение двух `Product` через `operator ==` и `hashCode`.
 2. Глубокое сравнение двух `List<Product>`.

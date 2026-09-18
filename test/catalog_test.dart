@@ -17,7 +17,7 @@ const tea = Product(
 );
 
 void main() {
-  final manager = DefaultProductCartManager();
+  ProductCartManager manager() => createProductCartManager();
 
   test('Product можно создать как const с необязательной категорией', () {
     const water = Product(id: 'water', name: 'Вода', priceRubles: 50);
@@ -53,12 +53,12 @@ void main() {
     final second = [coffee, tea];
     expect(identical(first, second), isFalse);
     expect(first == second, isFalse);
-    expect(manager.sameProductList(first, second), isTrue);
-    expect(manager.sameProductList(first, [tea, coffee]), isFalse);
+    expect(manager().sameProductList(first, second), isTrue);
+    expect(manager().sameProductList(first, [tea, coffee]), isFalse);
   });
 
   test('indexById строит read-only Map для поиска по id', () {
-    final index = manager.indexById(const [coffee, tea]);
+    final index = manager().indexById(const [coffee, tea]);
     expect(index['tea'], tea);
     expect(index['missing'], isNull);
     expect(() => index['water'] = coffee, throwsUnsupportedError);
@@ -67,7 +67,7 @@ void main() {
   test('indexById логирует и отклоняет повторяющийся id', () {
     final logs = <String>[];
     expect(
-      () => manager.indexById(const [coffee, coffee], log: logs.add),
+      () => manager().indexById(const [coffee, coffee], log: logs.add),
       throwsFormatException,
     );
     expect(logs.single, contains('coffee'));
@@ -84,7 +84,7 @@ void main() {
     );
     const water = Product(id: 'water', name: 'Вода', priceRubles: 50);
 
-    final changed = manager.findChangedIds(
+    final changed = manager().findChangedIds(
       const [coffee, tea],
       const [newCoffee, water],
     );
@@ -99,10 +99,11 @@ void main() {
     final currentCopy = List<Product>.of(current);
     final logs = <String>[];
 
-    manager.findChangedIds(previous, current, log: logs.add);
+    final productManager = manager();
+    productManager.findChangedIds(previous, current, log: logs.add);
 
-    expect(manager.sameProductList(previous, previousCopy), isTrue);
-    expect(manager.sameProductList(current, currentCopy), isTrue);
+    expect(productManager.sameProductList(previous, previousCopy), isTrue);
+    expect(productManager.sameProductList(current, currentCopy), isTrue);
     expect(logs.last, contains('1'));
   });
 }

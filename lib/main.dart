@@ -49,31 +49,21 @@ final class Product {
   }
 }
 
-/// Операции для сравнения двух версий списка товаров.
-///
-/// Рекомендуемый порядок реализации:
-/// 1. Завершить `Product.operator ==` и `Product.hashCode`.
-/// 2. Реализовать [sameProductList].
-/// 3. Реализовать [indexById].
-/// 4. Реализовать [findChangedIds].
+/// Описывает операции для сравнения двух версий списка товаров.
 abstract interface class ProductCartManager {
-  /// Проверяет, представляют ли два списка один и тот же набор данных
+  /// Проверяет, содержат ли два списка одинаковые товары
   /// в одинаковом порядке.
   bool sameProductList(List<Product> left, List<Product> right);
 
-  /// Подготавливает товары для поиска по id.
-  ///
-  /// Повторяющийся id считается ошибкой входных данных. Операция оставляет
-  /// короткий лог и возвращает результат, который нельзя изменить снаружи.
+  /// Создаёт доступный только для чтения индекс товаров по id.
+  /// Сообщает об ошибке, если один id встречается несколько раз.
   Map<String, Product> indexById(
     List<Product> products, {
     LogSink? log,
   });
 
-  /// Возвращает id товаров, которые добавились, исчезли или изменились.
-  ///
-  /// Входные списки должны остаться без изменений. Итоговое число изменений
-  /// записывается в лог.
+  /// Возвращает id товаров, добавленных, удалённых или изменённых
+  /// между двумя версиями списка.
   Set<String> findChangedIds(
     List<Product> previous,
     List<Product> current, {
@@ -81,31 +71,9 @@ abstract interface class ProductCartManager {
   });
 }
 
-final class DefaultProductCartManager implements ProductCartManager {
-  @override
-  bool sameProductList(List<Product> left, List<Product> right) {
-    // TODO 2: реализуйте поведение, описанное в интерфейсе.
-    return identical(left, right);
-  }
-
-  @override
-  Map<String, Product> indexById(
-    List<Product> products, {
-    LogSink? log,
-  }) {
-    // TODO 3: реализуйте поведение, описанное в интерфейсе.
-    throw UnimplementedError();
-  }
-
-  @override
-  Set<String> findChangedIds(
-    List<Product> previous,
-    List<Product> current, {
-    LogSink? log,
-  }) {
-    // TODO 4: реализуйте поведение, описанное в интерфейсе.
-    throw UnimplementedError();
-  }
+ProductCartManager createProductCartManager() {
+  // TODO 2–4: создайте реализацию ProductCartManager и верните её здесь.
+  throw UnimplementedError();
 }
 
 // -----------------------------------------------------------------------------
@@ -123,7 +91,7 @@ void main() {
     Product(id: 'water', name: 'Вода', priceRubles: 50),
   ];
 
-  ProductCartManager manager = DefaultProductCartManager();
+  final manager = createProductCartManager();
   final logs = <String>[];
 
   try {
