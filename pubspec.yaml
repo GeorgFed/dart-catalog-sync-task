@@ -1,5 +1,5 @@
-name: dart_shopping_cart_task
-description: Dart 3 practice with records, patterns, interfaces, and value equality.
+name: dart_catalog_sync_task
+description: Dart 3 practice with value equality, List, Map, Set, errors, and logging.
 version: 1.0.0
 publish_to: none
 

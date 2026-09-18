@@ -1,35 +1,20 @@
-import 'package:dart_shopping_cart_task/cart.dart';
+import 'package:dart_catalog_sync_task/catalog.dart';
 
 void main() {
-  const coffee = Product(
-    id: 'coffee',
-    name: 'Кофе',
-    priceKopecks: 15900,
-    tags: ['drink', 'hot'],
-  );
-  const tea = Product(
-    id: 'tea',
-    name: 'Чай',
-    priceKopecks: 9900,
-    description: 'Чёрный чай',
-    tags: ['drink'],
-  );
+  const previous = [
+    Product(id: 'coffee', name: 'Кофе', priceRubles: 159),
+    Product(id: 'tea', name: 'Чай', priceRubles: 99),
+  ];
+  const current = [
+    Product(id: 'coffee', name: 'Кофе', priceRubles: 179),
+    Product(id: 'water', name: 'Вода', priceRubles: 50),
+  ];
 
-  final service = CheckoutService(
-    catalog: MemoryProductCatalog(const [coffee, tea]),
-    discountPolicy: PromoCodeDiscount(),
-  );
+  final logs = <String>[];
+  final changedIds = findChangedIds(previous, current, log: logs.add);
 
-  final total = service.quote(const [
-    (productId: 'coffee', quantity: 2),
-    (productId: 'tea', quantity: 3),
-  ], promoCode: 'SAVE10');
-
-  final (:itemsCount, :subtotalKopecks, :discountKopecks, :totalKopecks) =
-      total;
-
-  print('Товаров: $itemsCount');
-  print('До скидки: $subtotalKopecks коп.');
-  print('Скидка: $discountKopecks коп.');
-  print('Итого: $totalKopecks коп.');
+  print('Изменившиеся товары: ${changedIds.toList()..sort()}');
+  for (final message in logs) {
+    print('LOG: $message');
+  }
 }
